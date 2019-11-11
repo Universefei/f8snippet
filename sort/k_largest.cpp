@@ -29,11 +29,16 @@ int partition(vector<int>& list, const int& start, const int& end) {
   return t_position;
 }
 
-int quick_sort(vector<int>& list, const int& start, const int& end) {
+int quick_sort(vector<int>& list, const int& start, const int& end, const int& k) {
   if (start < end) {
     int t_pivot = partition(list, start, end);
-    quick_sort(list, start, t_pivot - 1);
-    quick_sort(list, t_pivot + 1, end);
+    if (t_pivot == k) return 0;
+
+    if (t_pivot < k) {
+      quick_sort(list, t_pivot + 1, end, k);
+    } else if (t_pivot > k) {
+      quick_sort(list, start, t_pivot - 1, k);
+    }
   }
   return 0;
 }
@@ -52,10 +57,11 @@ int main() {
   tv.push_back(921);
   tv.push_back(3);
 
-  quick_sort(tv, 0, tv.size() - 1);
+  int t_pos = quick_sort(tv, 0, tv.size() - 1, 3);
   for (size_t i = 0, size = tv.size(); i < size; ++i) {
     printf("%d\n", tv[i]);
   }
+  printf("k_minimast: %d\n", tv[3]);
   return 0;
 }
 
